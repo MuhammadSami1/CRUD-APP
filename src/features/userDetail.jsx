@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit";
 
 const URL = "https://66068985be53febb857e1c38.mockapi.io/crud";
 
+// Create Action
 export const createUser = createAsyncThunk(
   "createUser",
   async (data, { rejectWithValue }) => {
@@ -15,6 +16,21 @@ export const createUser = createAsyncThunk(
 
     try {
       const result = await response.json();
+      return result;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
+// Read Action
+export const showUser = createAsyncThunk(
+  "showUser",
+  async (_, { rejectWithValue }) => {
+    const response = await fetch(URL);
+    try {
+      const result = await response.json();
+      console.log(result);
       return result;
     } catch (error) {
       return rejectWithValue(error);
@@ -39,6 +55,18 @@ const userDetail = createSlice({
         state.users.push(action.payload);
       })
       .addCase(createAction(createUser.rejected), (state, action) => {
+        state.loading = false;
+        state.users = action.payload;
+      });
+    builder
+      .addCase(createAction(showUser.pending), (state) => {
+        state.loading = true;
+      })
+      .addCase(createAction(showUser.fulfilled), (state, action) => {
+        state.loading = false;
+        state.users = action.payload;
+      })
+      .addCase(createAction(showUser.rejected), (state, action) => {
         state.loading = false;
         state.users = action.payload;
       });

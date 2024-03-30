@@ -1,6 +1,8 @@
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
+  const allUserData = useSelector((state) => state.app.users);
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -15,7 +17,7 @@ const Navbar = () => {
               </li>
               <li className="nav-item">
                 <Link to="/read" className="nav-link">
-                  All Post
+                  All Post ({allUserData.length})
                 </Link>
               </li>
             </ul>
