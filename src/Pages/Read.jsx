@@ -1,10 +1,17 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { showUser } from "../features/userDetail";
+import { deleteUser, showUser } from "../features/userDetail";
+import Popupcard from "../Components/Popupcard";
+import { Link } from "react-router-dom";
 
 const Read = () => {
   const dispatch = useDispatch();
+
   const { users, loading, error } = useSelector((state) => state.app);
+
+  const [popup, setPopup] = useState(false);
+
+  const [id, setId] = useState();
 
   useEffect(() => {
     dispatch(showUser());
@@ -24,6 +31,7 @@ const Read = () => {
 
   return (
     <div>
+      {popup && <Popupcard id={id} setPopup={setPopup} />}
       <h2 className="text-center text-3xl">All data</h2>
       <div>
         {users.map((value) => (
@@ -33,16 +41,22 @@ const Read = () => {
                 {value.name}
               </h5>
               <h6 className="card-subtitle mb-2 text-muted">{value.email}</h6>
-              <p className="card-text mb-3">{value.age}</p>
-              <a href="#" className="card-link">
+              <p className="card-text mb-3">{value.gender}</p>
+              <button
+                className="card-link px-3 py-1 bg-black text-white"
+                onClick={() => [setId(value.id), setPopup(true)]}
+              >
                 View
-              </a>
-              <a href="#" className="card-link">
+              </button>
+              <Link className="card-link px-3 py-1 bg-black text-white">
                 Edit
-              </a>
-              <a href="#" className="card-link">
+              </Link>
+              <button
+                className="card-link px-3 py-1 bg-black text-white"
+                onClick={() => dispatch(deleteUser(value.id))}
+              >
                 Delete
-              </a>
+              </button>
             </div>
           </div>
         ))}

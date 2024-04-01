@@ -14,7 +14,6 @@ const Create = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("...users", users);
     dispatch(createUser(users));
     navigate("/read");
   };

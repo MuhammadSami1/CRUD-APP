@@ -38,6 +38,23 @@ export const showUser = createAsyncThunk(
   }
 );
 
+// Delete Action
+export const deleteUser = createAsyncThunk(
+  "deleteUser",
+  async (id, { rejectWithValue }) => {
+    const response = await fetch(
+      `https://66068985be53febb857e1c38.mockapi.io/crud/${id}`,
+      { method: "DELETE" }
+    );
+    try {
+      const result = await response.json();
+      return result;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
 const userDetail = createSlice({
   name: "userDetail",
   initialState: {
@@ -46,6 +63,7 @@ const userDetail = createSlice({
     error: null,
   },
   extraReducers: (builder) => {
+    // Create Action
     builder
       .addCase(createAction(createUser.pending), (state) => {
         state.loading = true;
@@ -58,6 +76,8 @@ const userDetail = createSlice({
         state.loading = false;
         state.users = action.payload;
       });
+
+    // Show User
     builder
       .addCase(createAction(showUser.pending), (state) => {
         state.loading = true;
@@ -67,6 +87,24 @@ const userDetail = createSlice({
         state.users = action.payload;
       })
       .addCase(createAction(showUser.rejected), (state, action) => {
+        state.loading = false;
+        state.users = action.payload;
+      });
+
+    // Delete User
+    builder
+      .addCase(createAction(deleteUser.pending), (state) => {
+        state.loading = true;
+      })
+      .addCase(createAction(deleteUser.fulfilled), (state, action) => {
+        state.loading = false;
+
+        const { id } = action.payload;
+        if (id) {
+          state.users = state.users.filter((e) => e.id !== id);
+        }
+      })
+      .addCase(createAction(deleteUser.rejected), (state, action) => {
         state.loading = false;
         state.users = action.payload;
       });
