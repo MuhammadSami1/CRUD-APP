@@ -42,21 +42,26 @@ const Read = () => {
               </h5>
               <h6 className="card-subtitle mb-2 text-muted">{value.email}</h6>
               <p className="card-text mb-3">{value.gender}</p>
-              <button
-                className="card-link px-3 py-1 bg-black text-white"
-                onClick={() => [setId(value.id), setPopup(true)]}
-              >
-                View
-              </button>
-              <Link className="card-link px-3 py-1 bg-black text-white">
-                Edit
-              </Link>
-              <button
-                className="card-link px-3 py-1 bg-black text-white"
-                onClick={() => dispatch(deleteUser(value.id))}
-              >
-                Delete
-              </button>
+              <div className="flex items-center justify-center">
+                <button
+                  className="card-link px-3 py-1 bg-black text-white"
+                  onClick={() => [setId(value.id), setPopup(true)]}
+                >
+                  View
+                </button>
+                <Link
+                  to={`/edit/${value.id}`}
+                  className="card-link px-3 py-1 bg-black text-white"
+                >
+                  Edit
+                </Link>
+                <Link
+                  className="card-link px-3 py-1 bg-black text-white"
+                  onClick={() => dispatch(deleteUser(value.id))}
+                >
+                  Delete
+                </Link>
+              </div>
             </div>
           </div>
         ))}
