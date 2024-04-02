@@ -36,7 +36,8 @@ const Read = () => {
   return (
     <div>
       {popup && <Popupcard id={id} setPopup={setPopup} />}
-      <h2 className="text-center text-3xl">All data</h2>
+      <h2 className="text-center text-3xl my-2">All data</h2>
+      <div className="flex justify-center items-center my-2">
       <input
         className="form-check-input"
         name="gender"
@@ -63,6 +64,10 @@ const Read = () => {
         onChange={(e) => setRadioData(e.target.value)}
       />
       <label className="form-check-label">Female</label>
+
+
+      </div>
+      
       <div>
         {users &&
           users
