@@ -1,10 +1,17 @@
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { searchUser } from "../features/userDetail";
 
 const Navbar = () => {
   const allUserData = useSelector((state) => state.app.users);
   const [searchData, setSearchData] = useState("");
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(searchUser(searchData));
+  }, [searchData]);
 
   return (
     <div>
